@@ -126,14 +126,19 @@ void Loja::copiar(const Loja &X)
   // Faz cada ponteiro do novo array apontar para uma area de memoria alocada e que
   // contem uma copia da area de memoria correspondente no array original
   // Utiliza a funcao clone
-  falta_fazer();
+
+  for (unsigned i=0; i<X.size(); i++) x.push_back(X.x[i]->clone());
 }
 
 void Loja::limpar()
 {
   // Libera a area de memoria que cada um dos ponteiros do vector x aponta
   // Em seguida, limpa o vetor x
-  falta_fazer();
+  for (unsigned i=0; i < x.size(); i++)
+  {
+      //delete[] x[i]; errado
+      delete x[i];
+  }
 }
 
 void Loja::incluir(const Produto &X)
@@ -141,7 +146,11 @@ void Loja::incluir(const Produto &X)
   // Inclui no vetor x um novo elemento (um novo ponteiro) que aponta para
   // uma area de memoria alocada e que contem uma copia de X
   // Utiliza a funcao clone
-  falta_fazer();
+
+  //x.push_back( X.clone() ); // Errado pois est[a chamando direto de uma variável
+  // Logo não existe polimorfismo.
+
+  x.push_back( (&X)->clone() );
 }
 
 void Loja::excluir(unsigned id)
@@ -154,7 +163,12 @@ void Loja::excluir(unsigned id)
   }
   // Libera a area de memoria para a qual x[id] aponta
   // Em seguida, exclui o elemento do vetor x
-  falta_fazer();
+  if(x[id] != NULL)
+  {
+      delete x[id];
+      x[id] = NULL;
+  }
+  x.erase(x .begin()+id);
 }
 
 void Loja::imprimir() const
